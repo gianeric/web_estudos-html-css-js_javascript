@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de PETS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Pets</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cadastro.html">Cadastro</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="h1">Lista de pets</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Informações</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tablePet">
+
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $.get('http://127.0.0.1:8000/api/pets', function (response) {
+                $.each(response.items, function (index, value) {
+                    addRow(value);
+                });
+                deletePet();
+            });
+        });
+
+        function addRow(data) {
+
+            $("#tablePet").append(`
+                <tr>
+                    <td>${data.name}</td>
+                    <td>${data.age}</td>
+                    <td>${data.informations}</td>
+                    <td>${data.city}</td>
+                    <td>${data.state}</td>
+                    <td>
+                        <a href="editar.html?id=${data.id}" class="btn btn-primary">Editar</a>
+                        <a href="http://127.0.0.1:8000/api/pets/${data.id}" class="btn btn-danger">Excluir</a>
+                    </td>
+                </tr>
+            `);
+        }
+
+
+        function deletePet() {
+            $(".btn-danger").on('click', function (e) {
+                e.preventDefault();
+                let url = event.target.href;
+                let row = $(this).closest('tr');
+
+
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function (response) {
+                        row.remove();
+                        alert("Excluído com sucesso");
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            })
+        }
+        //     event.preventDefault();
+        //     let url = event.target.href;
+        //     let parentRow = event.target.parentNode.parentNode;
+        //     let xhr = new XMLHttpRequest();
+        //     xhr.open("delete", url, true);
+        //     xhr.onload = function () {
+        //         if (xhr.readyState === 4 && xhr.status === 200) {
+        //             parentRow.remove();
+        //             alert("Deletado com sucesso");
+        //         }
+        //     }
+
+        //     xhr.onerror = function () {
+        //         alert("Erro ao excluir produto");
+        //     }
+
+        //     xhr.send();
+        // }
+
+
+    </script>
+</body>
+
+</html>

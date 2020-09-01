@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de PETS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Pets</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cadastro.html">Cadastro</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="h1">Lista de pets</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Idade</th>
+                    <th>Informações</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tablePet">
+
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", "http://127.0.0.1:8000/api/pets");
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('Content-type', 'application/json');
+
+        xhr.onload = function (e) {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var dados = JSON.parse(xhr.responseText);
+                var items = dados.items;
+                items.forEach(function (item) {
+                    addRow(item);
+                });
+
+                /** Adiciona event listener */
+                let btnDelete = document.getElementsByClassName('btn-danger');
+                for(i = 0; i < btnDelete.length ; i++) {
+                    btnDelete[i].addEventListener('click', () => deletePet(event));
+                }
+            }
+        }
+
+        xhr.send();
+
+        function addRow(data) {
+            let tbody = document.getElementById("tablePet");
+            let newRow = tbody.insertRow(-1); // adiciona uma linha na ultia linha da tabela
+
+            let cellName = newRow.insertCell(0);
+            let cellAge = newRow.insertCell(1);
+            let cellInformations = newRow.insertCell(2);
+            let cellCity = newRow.insertCell(3);
+            let cellState = newRow.insertCell(4);
+            let cellActions = newRow.insertCell(5);
+
+            let textName = document.createTextNode(data.name);
+            let textAge = document.createTextNode(data.age);
+            let textInformations = document.createTextNode(data.informations);
+            let textCity = document.createTextNode(data.city);
+            let textState = document.createTextNode(data.state);
+
+            let textActionEdit = document.createTextNode('Editar');
+            let elementActionEdit = document.createElement("a");
+            elementActionEdit.href = `editar.html?id=${data.id}`;
+            elementActionEdit.classList.add('btn');
+            elementActionEdit.classList.add('btn-primary');
+            elementActionEdit.appendChild(textActionEdit);
+
+            
+            let textActionDelete = document.createTextNode('Excluir');
+            let elementActionDelete = document.createElement("a");
+            elementActionDelete.href = `http://127.0.0.1:8000/api/pets/${data.id}`;
+            elementActionDelete.classList.add('btn');
+            elementActionDelete.classList.add('btn-danger');
+            elementActionDelete.classList.add('ml-2');
+            elementActionDelete.appendChild(textActionDelete);
+
+
+            cellName.appendChild(textName);
+            cellAge.appendChild(textAge);
+            cellInformations.appendChild(textInformations);
+            cellCity.appendChild(textCity);
+            cellState.appendChild(textState);
+            cellActions.appendChild(elementActionEdit);
+            cellActions.appendChild(elementActionDelete);
+        }
+
+
+        function deletePet(event)
+        {
+            event.preventDefault();
+            let url = event.target.href;
+            let parentRow = event.target.parentNode.parentNode;
+            let xhr = new XMLHttpRequest();
+            xhr.open("delete", url, true);
+            xhr.onload = function () {
+                if(xhr.readyState === 4 && xhr.status === 200) {
+                    parentRow.remove();
+                    alert("Deletado com sucesso");
+                }
+            }
+
+            xhr.onerror = function () {
+                alert("Erro ao excluir produto");
+            }
+
+            xhr.send();
+        }
+
+        
+    </script>
+</body>
+
+</html>

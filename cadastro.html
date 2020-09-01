@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de PETS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Pets</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cadastro.html">Cadastro</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="h1">Cadastro de pets</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Nome</label>
+                    <input type="text" name="name" class="form-control" required="" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Idade</label>
+                    <input type="number" name="age" class="form-control" required="" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Cidade</label>
+                    <input type="text" name="city" class="form-control" required="" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Estado</label>
+                    <input type="text" name="state" maxlength="2" class="form-control" required="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Usuário</label>
+                    <select name="user_id" id="user_id" class="form-control">
+                        <option value="">Selecione</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Informações</label>
+                    <textarea name="informations" class="form-control" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <button type="button" id="btnSubmit" class="btn btn-primary btn-block">Salvar</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+
+        document.getElementById("btnSubmit").addEventListener("click", function (e) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("post", "http://127.0.0.1:8000/api/pets", true);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.setRequestHeader('Content-type', 'application/json');
+
+            let data = {
+                name: document.getElementsByName("name")[0].value,
+                age: document.getElementsByName("age")[0].value,
+                city: document.getElementsByName("city")[0].value,
+                state: document.getElementsByName("state")[0].value,
+                informations: document.getElementsByName("informations")[0].value,
+                user_id: document.getElementsByName("user_id")[0].value,
+            }
+
+            xhr.onload = function (e) {
+                if (xhr.readyState === 4 && xhr.status === 201) {
+                    var dados = JSON.parse(xhr.responseText);
+                    alert("Pet inserido com sucesso");
+                    window.location.href = "index.html";
+                }
+            }
+
+            xhr.send(JSON.stringify(data));
+        });
+
+
+
+        window.addEventListener("load", function (event) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("get", "http://127.0.0.1:8000/api/owners", true);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.onload = function (e) {
+                if (xhr.status === 200 && xhr.readyState === 4) {
+                    var data = JSON.parse(xhr.responseText);
+                    data.forEach(function(item) {
+                        addOption(item)
+                    })
+                }
+            }
+
+            xhr.onerror = function (e) {
+                alert("Erro ao localizar usuários");
+            }
+
+            xhr.send()
+
+            
+        });
+
+        function addOption(data)
+        {
+            let select = document.getElementById("user_id");
+            let opt = document.createElement('option');
+            let textOption = document.createTextNode(data.name);
+            opt.value = data.id;
+            opt.appendChild(textOption);
+
+            select.appendChild(opt);
+        }
+
+    </script>
+</body>
+
+</html>
