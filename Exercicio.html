@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Here you can find intelligence test for humans, who walk, sit down, run,  typing typing typing typing ...">
+    <title>Humans Intelligence </title>
+</head>
+
+<body>
+    <div class="content-header">
+        <H1>Humans Intelligence</H1>
+    </div>
+    </br>
+    <div class="content-header">
+        Número 1
+        <input type="number" name="num1" value="">
+        </br></br>
+        Número 2
+        <input type="number" name="num2" value="">
+        </br></br>
+        <button name="btnSomar">Somar</button>
+        <button name="btnSubtrair">Subtrair</button>
+        <h2>resultado</h2>
+    </div>
+    <div class='content-header2'>
+        <label for="weather">Select the weather type today: </label>
+        <select id="weather">
+            <option value="">--Make a choice--</option>
+            <option value="sunny">Sunny</option>
+            <option value="rainy">Rainy</option>
+            <option value="snowing">Snowing</option>
+            <option value="overcast">Overcast</option>
+        </select>
+
+        <p></p>
+    </div>
+</body>
+
+<script>
+    /*function soma(){
+        valor1 = document.getElementsByName("num1")[0];
+        valor2 = document.getElementsByName("num2")[0];
+        total  = valor1 + valor2;
+        span   = document.getElementById("resultado");
+        span.getElementsByName = total;
+    };*/
+
+    const btnSoma = document.getElementsByTagName('button')[0];
+    const btnSubtrair = document.getElementsByTagName('button')[1];
+
+    const myHeading = document.querySelector('h2');
+
+    btnSoma.addEventListener('click', event => {
+        myHeading.innerHTML = 'Teste1';
+    });
+
+    btnSubtrair.addEventListener('click', event => {
+        myHeading.innerHTML = 'Teste2';
+    });    
+
+
+    // let btnSoma = document.querySelector("button");
+    // let btnSubtrai = document.querySelector("button");
+    // let myHeading = document.querySelector('h2');
+
+    // function setUserName() {
+    //     let Name = prompt("Please input your name: ")
+    //     localStorage.setItem('name', Name);
+    //     let Age = prompt("Please input your age: ")
+    //     localStorage.setItem('age', Age);
+    // }
+
+    // if (!localStorage.getItem(name)) {
+    //     btnSoma.onclick = function () {
+    //         setUserName();
+    //         let storedName = localStorage.getItem('name');
+    //         myHeading.textContent = 'Meu nome é : ' + storedName;
+    //     };
+    // }
+
+    // if (!localStorage.getItem(name)) {
+    //     btnSubtrai.onclick = function () {
+    //         setUserName();
+    //         let storedName = localStorage.getItem('age');
+    //         myHeading.innerHTML = 'Minha idade: ' + storedName;
+    //     };
+    // }
+
+    var select = document.querySelector("select");
+    var para = document.querySelector("p");
+
+    select.addEventListener('change', setWhater);
+
+    function setWhater() {
+        let choice = select.value;
+
+        if (choice === 'sunny') {
+            para.innerHTML = 'Herre Comes the sun';
+        }
+        else {
+            para.innerHTML = 'and a say';
+        }
+    }
+
+</script>
+
+</html>
