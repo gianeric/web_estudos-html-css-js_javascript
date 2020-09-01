@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+
+<body>
+    <h1>
+        Calculadora
+    </h1>
+
+    <label>Numero 1</label>
+    <input name="numero1" type="number" value="">
+
+    </br>
+    </br>
+
+    <label>Numero 2</label>
+    <input name="numero2" type="number" value="">
+
+    </br>
+    </br>
+
+    <button type="button">Somar</button>
+    <button type="button">Subtrair</button>
+
+    </br>
+    </br>
+
+    <span id="resultado"></span>
+
+    <script>
+        var numero1     = document.getElementsByName("numero1")[0];
+        var numero2     = document.getElementsByName("numero2")[0];
+        var btnSoma     = document.getElementsByTagName("button")[0];
+        var btnSubtrair = document.getElementsByTagName("button")[1];
+
+        btnSoma.addEventListener("click", function () {
+                                            let total = new Number(numero1.value) + new Number(numero2.value);
+                                            let span = document.getElementById("resultado");
+                                            span.innerText = "Resultado : " + total;
+                                          });
+
+        btnSubtrair.addEventListener("click", function () {
+                                              let total = new Number(numero1.value) - new Number(numero2.value);
+                                              let span = document.getElementById("resultado");
+                                              span.innerText = "Resultado : " + total;
+                                            });
+    </script>
+</body>
+</html>
