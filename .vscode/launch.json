@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: App",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/backend/app/lambda_function.py",
+      "cwd": "${workspaceFolder}/backend/app/",
+      "console": "integratedTerminal",
+      "env": {},
+      "justMyCode": true
+    }
+  ]
+}
