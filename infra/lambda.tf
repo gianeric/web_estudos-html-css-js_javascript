@@ -35,7 +35,7 @@ resource "aws_lambda_function" "lambda_english_insight" {
   function_name = "lambda_english_insight"
   role          = aws_iam_role.lambda_role.arn
   handler       = "lambda_function.lambda_handler"
-  runtime       = "python3.11"
+  runtime       = "python3.12"
 
   filename = "${path.module}/lambda_english_insight.zip" # será criado pelo GitHub Action
   source_code_hash = filebase64sha256("${path.module}/lambda_english_insight.zip")

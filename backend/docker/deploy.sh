@@ -53,7 +53,7 @@ aws --endpoint-url=http://localhost:4566 lambda delete-function --function-name 
 echo "🚀 Criando função Lambda no LocalStack..."
 aws --endpoint-url=http://localhost:4566 lambda create-function \
   --function-name "$LAMBDA_NAME" \
-  --runtime python3.9 \
+  --runtime python3.12 \
   --handler "$HANDLER" \
   --role "$ROLE_ARN" \
   --zip-file "fileb://$ZIP_FILE"

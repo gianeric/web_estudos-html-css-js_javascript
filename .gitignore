@@ -4,3 +4,6 @@
 .terraform.lock.hcl
 __pycache__/
 *.pyc
+*.aws-sam/
+*env.json
+env.json
