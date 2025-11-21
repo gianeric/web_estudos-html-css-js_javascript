@@ -75,7 +75,8 @@ class LambdaEnglishCorrector:
             cleaned = parse_clean_gemini_response(gemini_response.text)
 
             self.logger.info("[LambdaEnglishCorrector] Correção gerada com sucesso.")
-            response = {
+
+            return{
                 "statusCode": 200,
                 "headers": headers,
                 "body": json.dumps(
@@ -83,13 +84,6 @@ class LambdaEnglishCorrector:
                     ensure_ascii=False
                 )
             }
-            self.logger.info(response)
-            return response
-            }
-
-            self.logger.info(response)
-            
-            return response
         except ConnectionError as ce:
             self.logger.error(f"[LambdaEnglishCorrector] Erro ao conectar no serviço externo: {ce}")
             return {
