@@ -16,7 +16,7 @@ def corrector_prompt() -> str:
         "4) Se a frase estiver correta, apenas diga que está correta.\n"
         "Não escreva textos longos.\n"
         "Seja direto, igual:\n\n"
-        "Correct:\n"
+        "Correto:\n"
         "[...]\n\n"
         "Explicação curta:\n"
         "[...]\n\n"
